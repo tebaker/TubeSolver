@@ -12,3 +12,17 @@ C:\Users\Talon\Documents\TubesSolver\obj\Debug\netcoreapp3.1\TubesSolver.csproj.
 C:\Users\Talon\Documents\TubesSolver\obj\Debug\netcoreapp3.1\TubesSolver.dll
 C:\Users\Talon\Documents\TubesSolver\obj\Debug\netcoreapp3.1\TubesSolver.pdb
 C:\Users\Talon\Documents\TubesSolver\obj\Debug\netcoreapp3.1\TubesSolver.genruntimeconfig.cache
+C:\Users\Talon\Documents\TubeSolver\bin\Debug\netcoreapp3.1\TubesSolver.exe
+C:\Users\Talon\Documents\TubeSolver\bin\Debug\netcoreapp3.1\TubesSolver.deps.json
+C:\Users\Talon\Documents\TubeSolver\bin\Debug\netcoreapp3.1\TubesSolver.runtimeconfig.json
+C:\Users\Talon\Documents\TubeSolver\bin\Debug\netcoreapp3.1\TubesSolver.runtimeconfig.dev.json
+C:\Users\Talon\Documents\TubeSolver\bin\Debug\netcoreapp3.1\TubesSolver.dll
+C:\Users\Talon\Documents\TubeSolver\bin\Debug\netcoreapp3.1\TubesSolver.pdb
+C:\Users\Talon\Documents\TubeSolver\obj\Debug\netcoreapp3.1\TubesSolver.csproj.AssemblyReference.cache
+C:\Users\Talon\Documents\TubeSolver\obj\Debug\netcoreapp3.1\TubesSolver.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Talon\Documents\TubeSolver\obj\Debug\netcoreapp3.1\TubesSolver.AssemblyInfoInputs.cache
+C:\Users\Talon\Documents\TubeSolver\obj\Debug\netcoreapp3.1\TubesSolver.AssemblyInfo.cs
+C:\Users\Talon\Documents\TubeSolver\obj\Debug\netcoreapp3.1\TubesSolver.csproj.CoreCompileInputs.cache
+C:\Users\Talon\Documents\TubeSolver\obj\Debug\netcoreapp3.1\TubesSolver.dll
+C:\Users\Talon\Documents\TubeSolver\obj\Debug\netcoreapp3.1\TubesSolver.pdb
+C:\Users\Talon\Documents\TubeSolver\obj\Debug\netcoreapp3.1\TubesSolver.genruntimeconfig.cache

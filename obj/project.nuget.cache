@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "kD7LaBS6ELCaEZXnmrm6ySkbyvE3sgVnU2g+s5FowCyZ32YXFiov2xN6Ln+86ndrEI5s6tNYLbF++6ywEeKl9w==",
+  "dgSpecHash": "X0XJ4aaqo6Dsw5ZrIzs6HuzXJ6LHepbs/+/e3OsEL+tOf87a1CF/cVj7mNTPLhu2WfgByMX7h0sPKPRp428KWQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Talon\\Documents\\TubesSolver\\TubesSolver.csproj",
+  "projectFilePath": "C:\\Users\\Talon\\Documents\\TubeSolver\\TubesSolver.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

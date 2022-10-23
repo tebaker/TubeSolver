@@ -11,35 +11,26 @@ namespace TubesSolver
 
         public decimal freeSpace { get; private set; } // Available space not taken up by color liquid
         private decimal segments { get; set; } // Total number of segments in the tube
-        private Stack<string> tubeStack; // Stack holding order within the tube, FILO
-        private Dictionary<char, decimal> volumeByColor; // Holds the color and the volume of that color within the tube
+        private Stack<char> colorStack; // Stack holding order within the tube, FILO
+        private Dictionary<char, int> volumeByColor; // Holds the color and the volume of that color within the tube
 
-        public Tube(int tubeId, int numOfSetments)
+        public Tube(int tubeId, int numOfSetments, string colorOrderOfTube)
         {
             tubeID = tubeId;
             segments = numOfSetments;
-            freeSpace = segments;
-            tubeStack = new Stack<string>();
-            volumeByColor = new Dictionary<char, decimal>();
-        }
-
-        public Tube(int tubeId, int numOfSetments, List<string> colorOrderOfTube)
-        {
-            tubeID = tubeId;
-            segments = numOfSetments;
-            volumeByColor = new Dictionary<char, decimal> ();
-            tubeStack = new Stack<string>();
+            volumeByColor = new Dictionary<char, int> ();
+            colorStack = new Stack<char>();
 
 
             // Calculating freeSpace, setting volumeByColor and tubeOrder at the same time
             freeSpace = numOfSetments;
 
             // Setting volume by color order based on tube stack
-            foreach(string colorData in colorOrderOfTube)
+            for(int i = 0; i < colorOrderOfTube.Length; i += 2)
             {
-                freeSpace -= colorData[1] - '0';
-                volumeByColor.Add(colorData[0], colorData[1]);
-                tubeStack.Push(colorData);
+                freeSpace -= colorOrderOfTube[i+1] - '0';
+                volumeByColor.Add(colorOrderOfTube[i], colorOrderOfTube[i+1] - '0');
+                colorStack.Push(colorOrderOfTube[i]);
             }
         }
 
@@ -49,9 +40,9 @@ namespace TubesSolver
         {
             decimal greatestVolume = 0;
 
-            foreach (string colorVolume in tubeStack)
+            foreach (char colorVolume in colorStack)
             {
-                greatestVolume = Math.Max(colorVolume[1] - '0', greatestVolume); // - '0' to convert char to int
+                greatestVolume = Math.Max(colorVolume - '0', greatestVolume); // - '0' to convert char to int
             }
 
             return greatestVolume / segments;
@@ -64,18 +55,18 @@ namespace TubesSolver
         {
             string returnStr = "_" + tubeID + "_";
 
-            foreach(string colorVolume in tubeStack)
+            foreach(char colorVolume in colorStack)
             {
-                returnStr += colorVolume;
+                returnStr += Char.ToString(colorVolume);
             }
 
             return returnStr;
         }
 
         // Returns the color and volume of the next liquid on the tube stack
-        public string PeekColor()
+        public char PeekColor()
         {
-            return tubeStack.Peek();
+            return colorStack.Peek();
         }
 
         // Returns a string of the current contents of the tube
@@ -91,11 +82,13 @@ namespace TubesSolver
                 }
             }
 
-            foreach (string colorVolume in tubeStack)
+            foreach (char color in colorStack)
             {
-                for(int i = 0; i < colorVolume[1] - '0'; i++)
+                int loopAmount = volumeByColor[color];
+
+                for(int i = 0; i < loopAmount; i++)
                 {
-                    contentsOfTube += colorVolume[0] + "|";
+                    contentsOfTube += Char.ToString(color) + "|";
                 }
             }
             contentsOfTube += ">";

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Talon\\Documents\\TubesSolver\\TubesSolver.csproj": {}
+    "C:\\Users\\Talon\\Documents\\TubeSolver\\TubesSolver.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Talon\\Documents\\TubesSolver\\TubesSolver.csproj": {
+    "C:\\Users\\Talon\\Documents\\TubeSolver\\TubesSolver.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Talon\\Documents\\TubesSolver\\TubesSolver.csproj",
+        "projectUniqueName": "C:\\Users\\Talon\\Documents\\TubeSolver\\TubesSolver.csproj",
         "projectName": "TubesSolver",
-        "projectPath": "C:\\Users\\Talon\\Documents\\TubesSolver\\TubesSolver.csproj",
+        "projectPath": "C:\\Users\\Talon\\Documents\\TubeSolver\\TubesSolver.csproj",
         "packagesPath": "C:\\Users\\Talon\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Talon\\Documents\\TubesSolver\\obj\\",
+        "outputPath": "C:\\Users\\Talon\\Documents\\TubeSolver\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Talon\\AppData\\Roaming\\NuGet\\NuGet.Config",

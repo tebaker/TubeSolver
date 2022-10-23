@@ -49,6 +49,23 @@ namespace TubesSolver
             return true;
         }
 
+        // Deserializing the rack code from string to Tube / Rack classes
+        public Rack DeserializeRackCode(int segments, string rackCode)
+        {
+            int numOfTubes = 0;
+            string[] listStrElements = rackCode.Split('_');
+
+            // Example Rack Code: _0_B2R2_1_B1_2_B1G3_3__4_G1R2
+            // * _{num}_ => tubeID
+            // * {CHAR VOLUME} => character of color, volume of 'water'
+            for (int i = 0; i < listStrElements.Length; i++)
+            {
+                Console.WriteLine(listStrElements[i]);
+            }
+
+            return new Rack(new List<Tube>());
+        }
+
         // Returns string of contents of every tube
         public string Print()
         {

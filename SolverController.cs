@@ -18,12 +18,14 @@ namespace TubesSolver
     class SolverController
     {
         HashSet<string> previousStates; // holding all previous state strings
-        Stack<List<string>> sequenceStack; // Holding sequence of previous state strings
+        Stack<List<string>> sequenceStack; // Holding sequence of previous state strings.
+                                           // String in list as index 0 is raw state string,
+                                           // Index 1 is tube-to-tube pour that resulted in state.
 
         public SolverController()
         {
-            previousStates = new HashSet<string>();
-            sequenceStack = new Stack<List<string>>();
+            previousStates = new HashSet<string>(); // Set of states already explored
+            sequenceStack = new Stack<List<string>>(); // Pair of moves required to get to current state, rack code
         }
     }
 }
