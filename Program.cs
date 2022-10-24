@@ -22,13 +22,13 @@ namespace TubesSolver
 
 
         const int TUBE_SEGMENTS = 4;
-        const int TUBES_IN_RACK = 14;
+        const int TUBES_IN_RACK = 5;
 
         static void Main(string[] args)
         {
             // Example Rack Code: 0BBRR_1B_2BGGG_3_4GRR
-            //Rack rack = new Rack(TUBE_SEGMENTS, "BBRR_B_BGGG__GRR");
-            Rack rack = new Rack(TUBE_SEGMENTS, "ABCD_EFGH_GIAF_DIEJ_GKJF_GBFD_CBHL_ELHI_KKHA_LJIC_BADC_EJLK__");
+            Rack rack = new Rack(TUBE_SEGMENTS, "BBRR_B_BGGG__GRR");
+            //Rack rack = new Rack(TUBE_SEGMENTS, "ABCD_EFGH_GIAF_DIEJ_GKJF_GBFD_CBHL_ELHI_KKHA_LJIC_BADC_EJLK__");
 
             Console.WriteLine(rack.Print());
 
@@ -96,7 +96,7 @@ namespace TubesSolver
                             outScore = rack.CalcScore();
 
                             solverController.PushUexploredState(outCode, i.ToString(), j.ToString());
-                            Console.WriteLine(iterTracking + ": " + outCode + "\t->" + outScore);
+                            Console.WriteLine(iterTracking + ": " + outCode + "\t-> " + outScore);
 
                             // Setting highest score for viewing later
                             if(outScore > highestScore)
@@ -117,13 +117,13 @@ namespace TubesSolver
                 if (deadEnd) solverController.PopFromSequenceStack();
             }
 
-            Console.WriteLine();
+            Console.WriteLine("\n");
             Console.WriteLine("Finished:");
             Console.WriteLine("Iteration: " + solutionIter);
             Console.WriteLine("Highest Score: " + highestScore);
             Console.WriteLine("Highest Code: " + highestCode);
 
-            Console.WriteLine("Steps for solution:");
+            Console.WriteLine("Steps for solution:\n\n");
             Console.WriteLine("Initial State: " + initialState);
             solverController.PrintPathSteps();
         }

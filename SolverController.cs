@@ -55,7 +55,7 @@ namespace TubesSolver
             int i = 1;
             while(sequenceStack.Count != 0)
             {
-                Console.WriteLine("State {0} -> ", sequenceStack.Peek()[0]);
+                Console.Write("State {0} -> ", sequenceStack.Peek()[0]);
                 Console.WriteLine("\tStep {0}: Pour tube {1} into tube {2}", i, sequenceStack.Peek()[1], sequenceStack.Peek()[2]);
                 i++;
                 sequenceStack.Dequeue();
