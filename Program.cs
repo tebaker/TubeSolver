@@ -35,19 +35,27 @@ namespace TubesSolver
             // This will let us exclude the initial state from future calculations and stop looping
             solverController.AddPreviousState(rack.currentState);
 
-            rack.IsValidPour(0, 1);
 
 
-
-
-
-
-
-
-
-            Console.WriteLine(rack.Print());
 
             Console.WriteLine(rack.CalcScore()); // TODO need to check about this method. Not working as it should.
+
+            string outString = "";
+            decimal outScore = 0.0M;
+
+            rack.IsValidPour(0, 1, ref outString, ref outScore);
+
+            Console.WriteLine(solverController.IsAlreadySeenState(outString));
+            Console.WriteLine(outScore);
+
+            solverController.AddPreviousState(outString);
+
+            rack.IsValidPour(0, 1, ref outString, ref outScore);
+
+            Console.WriteLine(solverController.IsAlreadySeenState(outString));
+
+            //Console.WriteLine(rack.Print());
+
 
 
             // We're going to loop until rack score is 1; meaning we've solved the program.

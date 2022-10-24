@@ -32,5 +32,11 @@ namespace TubesSolver
         {
             previousStates.Add(previousState);
         }
+
+        public bool IsAlreadySeenState(string stateCode)
+        {
+            return previousStates.Contains(stateCode);
+        }
+
     }
 }

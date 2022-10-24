@@ -50,8 +50,9 @@ namespace TubesSolver
         }
 
         // Will pour the top fluid contents from one tube into another
-        public bool IsValidPour(int tubeId1, int tubeId2)
+        public bool IsValidPour(int tubeId1, int tubeId2, ref string outSwapCode, ref decimal outScore)
         {
+            string refOutString = "";
             bool valid = false;
 
             string topOfTube1 = rack[tubeId1].PeekTop();
@@ -59,8 +60,7 @@ namespace TubesSolver
             // Checking if the liquid from one tube could be contained by the other and vice versa
             if(rack[tubeId2].CouldContain(topOfTube1))
             {
-                string testSwapCode = GenerateTestSwapCode(tubeId1, tubeId2, topOfTube1);
-                Console.WriteLine("IN IsValidPour: " + testSwapCode);
+                refOutString = GenerateTestSwapCode(tubeId1, tubeId2, topOfTube1, ref outScore);
                 valid = true;
             }
             // Checking if the swap would generate a serialized code state we have seen before
@@ -70,7 +70,7 @@ namespace TubesSolver
         }
 
         // Generates new serialized swapCode for check
-        private string GenerateTestSwapCode(int tubeId1, int tubeId2, string topOfTube1)
+        private string GenerateTestSwapCode(int tubeId1, int tubeId2, string topOfTube1, ref decimal outScore)
         {
             // Pouring from tube 1 into tube 2
             for (int i = 0; i < topOfTube1.Length; i++)
@@ -81,6 +81,7 @@ namespace TubesSolver
 
             // Grabbing serial from pour
             string testSwapCode = Serialize();
+            outScore = CalcScore();
 
             // Pouring back from tube 2 to tube 1 to get things back to normal
             for (int i = 0; i < topOfTube1.Length; i++)
@@ -88,20 +89,12 @@ namespace TubesSolver
                 rack[tubeId1].Push(topOfTube1[i]); // Pop returns the popped character
                 rack[tubeId2].Pop(); // Popping from tube 1
             }
-
-
-            Console.WriteLine("IN GenerateTestSwapCode");
-            Console.WriteLine(testSwapCode);
-            Console.WriteLine(Serialize());
-
             return testSwapCode;
         }
 
         // Pour will pour the top volume of liquid from one tube to another
         public string Pour(int tubeId1, int tubeId2)
         {
-            string tempCode = "";
-
             string topOfTube1 = rack[tubeId1].PeekTop();
 
             for(int i = 0; i < topOfTube1.Length; i++)
