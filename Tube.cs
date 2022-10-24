@@ -66,6 +66,12 @@ namespace TubesSolver
             return returnStr;
         }
 
+        public bool IsEmpty()
+        {
+            if (freeSpace == segments) return true;
+            return false;
+        }
+
         // Returns the color on top of the tube stack
         // If multiple colors are stacked on top of one another, returns all like colors
         public string PeekTop()

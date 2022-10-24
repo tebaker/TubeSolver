@@ -35,30 +35,37 @@ namespace TubesSolver
             // This will let us exclude the initial state from future calculations and stop looping
             solverController.AddPreviousState(rack.currentState);
 
-
-
-
-            Console.WriteLine(rack.CalcScore()); // TODO need to check about this method. Not working as it should.
-
-            string outString = "";
+            // Holding results of score and serialized code
+            string outCode = "";
             decimal outScore = 0.0M;
 
-            rack.IsValidPour(0, 1, ref outString, ref outScore);
+            solverController.PushUexploredState(rack.currentState, "NULL", "NULL"); // Initial state has no from or to pour
 
-            Console.WriteLine(solverController.IsAlreadySeenState(outString));
-            Console.WriteLine(outScore);
+            while(solverController.IsUnexploredEmpty() == false)
+            {
+                // Popping from unexplored list and setting result to new rack for testing
+                string unexploredStateCode = solverController.PopUnexploredState();
+                rack = new Rack(TUBE_SEGMENTS, unexploredStateCode);
 
-            solverController.AddPreviousState(outString);
+                // Generating all the valid next states from the initial state
+                for(int i = 0; i < TUBES_IN_RACK; i++)
+                {
+                    for(int j = 0; j < TUBES_IN_RACK; j++)
+                    {
+                        if (i != j && rack.IsValidPour(i, j, ref outCode, ref outScore) && !solverController.IsAlreadySeenState(outCode))
+                        {
+                            solverController.PushUexploredState(outCode, i.ToString(), j.ToString());
+                            Console.WriteLine(outCode + "\t->" + outScore);
+                            if (rack.IsWinState()) break;
+                        }
+                    }
+                }
+            }
 
-            rack.IsValidPour(0, 1, ref outString, ref outScore);
-
-            Console.WriteLine(solverController.IsAlreadySeenState(outString));
-
-            //Console.WriteLine(rack.Print());
+            Console.WriteLine("DIT ITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+            Console.WriteLine(outCode);
 
 
-
-            // We're going to loop until rack score is 1; meaning we've solved the program.
         }
     }
 }

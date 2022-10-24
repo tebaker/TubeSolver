@@ -17,15 +17,21 @@ namespace TubesSolver
 
     class SolverController
     {
-        HashSet<string> previousStates; // holding all previous state strings
+        HashSet<string> previousStates;    // holding all previous state strings
         Stack<List<string>> sequenceStack; // Holding sequence of previous state strings.
-                                           // String in list as index 0 is raw state string,
-                                           // Index 1 is tube-to-tube pour that resulted in state.
+                                           //     String in list as index 0 is raw state string,
+                                           //     Index 1 is tube-to-tube pour that resulted in state.
+
+        Stack<List<string>> unexploredStates; // Holding valid string state for the unexplored states that are possible
+                                              //    based on our current state
+                                              // Index 0 holds the unexplored state code
+                                              // Also holding at index 1 and 2 the from tube and to tube to make the state possible
 
         public SolverController()
         {
             previousStates = new HashSet<string>(); // Set of states already explored
             sequenceStack = new Stack<List<string>>(); // Pair of moves required to get to current state, rack code
+            unexploredStates = new Stack<List<string>>();
         }
 
         public void AddPreviousState(string previousState)
@@ -38,5 +44,28 @@ namespace TubesSolver
             return previousStates.Contains(stateCode);
         }
 
+        public void PushUexploredState(string unexploredStateCode, string fromTube, string toTube)
+        {
+            unexploredStates.Push(new List<string>() { unexploredStateCode, fromTube, toTube });
+        }
+
+        public string PopUnexploredState()
+        {
+            string unexploredStatusCode = unexploredStates.Peek()[0];
+
+            previousStates.Add(unexploredStatusCode);
+         
+            unexploredStates.Pop();
+
+            return unexploredStatusCode;
+        }
+
+        public bool IsUnexploredEmpty()
+        {
+            if(unexploredStates.Count == 0) {
+                return true;
+            }
+            return false;
+        }
     }
 }

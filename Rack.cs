@@ -38,7 +38,7 @@ namespace TubesSolver
             return returnScore / tubesInRack;
         }
 
-        // 
+        // Returns the string of current tubes so they can be hashed or deseerialized
         public string Serialize()
         {
             string returnCode = "";
@@ -52,7 +52,9 @@ namespace TubesSolver
         // Will pour the top fluid contents from one tube into another
         public bool IsValidPour(int tubeId1, int tubeId2, ref string outSwapCode, ref decimal outScore)
         {
-            string refOutString = "";
+            // Checking if tube1 is empty
+            if (rack[tubeId1].IsEmpty()) return false;
+
             bool valid = false;
 
             string topOfTube1 = rack[tubeId1].PeekTop();
@@ -60,7 +62,7 @@ namespace TubesSolver
             // Checking if the liquid from one tube could be contained by the other and vice versa
             if(rack[tubeId2].CouldContain(topOfTube1))
             {
-                refOutString = GenerateTestSwapCode(tubeId1, tubeId2, topOfTube1, ref outScore);
+                outSwapCode = GenerateTestSwapCode(tubeId1, tubeId2, topOfTube1, ref outScore);
                 valid = true;
             }
             // Checking if the swap would generate a serialized code state we have seen before
@@ -141,6 +143,16 @@ namespace TubesSolver
             }
 
             return contentsOfRack;
+        }
+
+        public bool CheckWinState()
+        {
+            string[] checkFrom = Serialize().Split('_');
+
+            foreach(string str in checkFrom)
+            {
+
+            }
         }
     }
 }
