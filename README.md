@@ -8,7 +8,7 @@ AI agent for solving "Water Sort" mobile puzzle game
 ![img2](RackInput.png)
 
 
-### Algorithm will check the current state of the game and calculate a "score" for how close the game is to being solved.
+### Algorithm will check the current state of the game and calculate a "score" for how close the game is to being solved. Once probability reaches 1, a solved state has been reached. 
 
 ### The agent will generate the steps required for the user to complete the game that you can follow from the initial state of the game 
 ![img3](ConsoleOutput.png)
