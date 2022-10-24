@@ -121,14 +121,15 @@ namespace TubesSolver
 
             List<Tube> holdTubes = new List<Tube>();
 
+            int tubeId = 0;
+
             foreach(string tubeCode in rackCodeSplit)
             {
-                int tubeId = tubeCode[0] - '0';
-                string colorVolumes = tubeCode.Substring(1);
-
-                Tube tube = new Tube(tubeId, segments, colorVolumes);
+                Tube tube = new Tube(tubeId, segments, tubeCode);
                 holdTubes.Add(tube);
-                //Console.WriteLine(listStrElements[i]);
+                tubeId++;
+                //Console.WriteLine("Adding tube: " + tubeId);
+
             }
             return holdTubes;
         }

@@ -22,12 +22,15 @@ namespace TubesSolver
 
 
         const int TUBE_SEGMENTS = 4;
-        const int TUBES_IN_RACK = 5;
+        const int TUBES_IN_RACK = 14;
 
         static void Main(string[] args)
         {
             // Example Rack Code: 0BBRR_1B_2BGGG_3_4GRR
-            Rack rack = new Rack(TUBE_SEGMENTS, "0BBRR_1B_2BGGG_3_4GRR");
+            //Rack rack = new Rack(TUBE_SEGMENTS, "BBRR_B_BGGG__GRR");
+            Rack rack = new Rack(TUBE_SEGMENTS, "ABCD_EFGH_GIAF_DIEJ_GKJF_GBFD_CBHL_ELHI_KKHA_LJIC_BADC_EJLK__");
+
+            Console.WriteLine(rack.Print());
 
             //Console.WriteLine(rack.CalcScore());
 

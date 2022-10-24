@@ -69,7 +69,7 @@ namespace TubesSolver
          // Returns a unique string of the tube colors with tube identifier
         public string Serialize()
         {
-            string returnStr = "_" + tubeID;
+            string returnStr = "_";
 
             foreach(char colorVolume in colorStack)
             {
