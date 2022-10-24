@@ -12,3 +12,5 @@ AI agent for solving "Water Sort" mobile puzzle game
 
 ### The agent will generate the steps required for the user to complete the game that you can follow from the initial state of the game 
 ![img3](ConsoleOutput.png)
+
+### Some updates need to be made to eliminate redundancies in the solving methods, however the solved state will be reached for smaller tube/rack sets.
