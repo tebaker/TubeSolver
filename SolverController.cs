@@ -18,7 +18,7 @@ namespace TubesSolver
     class SolverController
     {
         HashSet<string> previousStates;    // holding all previous state strings
-        Stack<List<string>> sequenceStack; // Holding sequence of previous state strings.
+        Queue<List<string>> sequenceStack; // Holding sequence of previous state strings.
                                            //     String in list as index 0 is raw state string,
                                            //     Index 1 is tube-to-tube pour that resulted in state.
 
@@ -30,7 +30,7 @@ namespace TubesSolver
         public SolverController()
         {
             previousStates = new HashSet<string>(); // Set of states already explored
-            sequenceStack = new Stack<List<string>>(); // Pair of moves required to get to current state, rack code
+            sequenceStack = new Queue<List<string>>(); // Pair of moves required to get to current state, rack code
             unexploredStates = new Stack<List<string>>();
         }
 
@@ -38,6 +38,28 @@ namespace TubesSolver
         public void AddPreviousState(string previousState)
         {
             previousStates.Add(previousState);
+        }
+
+        public void PushToSequenceStack(List<string> StateFromTo)
+        {
+            sequenceStack.Enqueue(StateFromTo);
+        }
+
+        public void PopFromSequenceStack()
+        {
+            sequenceStack.Dequeue();
+        }
+
+        public void PrintPathSteps()
+        {
+            int i = 1;
+            while(sequenceStack.Count != 0)
+            {
+                Console.WriteLine("State {0} -> ", sequenceStack.Peek()[0]);
+                Console.WriteLine("....Step {0}: Pour tube {1} into tube {2}", i, sequenceStack.Peek()[1], sequenceStack.Peek()[2]);
+                i++;
+                sequenceStack.Dequeue();
+            }
         }
 
         public bool IsAlreadySeenState(string stateCode)
@@ -50,15 +72,17 @@ namespace TubesSolver
             unexploredStates.Push(new List<string>() { unexploredStateCode, fromTube, toTube });
         }
 
-        public string PopUnexploredState()
+        public List<string> PopUnexploredState()
         {
             string unexploredStatusCode = unexploredStates.Peek()[0];
+            string fromTube = unexploredStates.Peek()[1];
+            string toTube = unexploredStates.Peek()[2];
 
             previousStates.Add(unexploredStatusCode);
          
             unexploredStates.Pop();
 
-            return unexploredStatusCode;
+            return new List<string>() { unexploredStatusCode, fromTube, toTube };
         }
 
         public bool IsUnexploredEmpty()

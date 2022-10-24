@@ -50,6 +50,7 @@ namespace TubesSolver
             // This will let us exclude the initial state from future calculations and stop looping
             solverController.AddPreviousState(rack.currentState);
 
+            string initialState = rack.currentState;
             string highestCode = "";
             decimal highestScore = 0.0M;
             int solutionIter = 0;
@@ -62,14 +63,19 @@ namespace TubesSolver
             while (solverController.IsUnexploredEmpty() == false && solutionFound == false)
             {
                 // Holding popped string for pushing into explored state
-                string poppedString = solverController.PopUnexploredState();
+                List<string> poppedState = solverController.PopUnexploredState();
 
-                solverController.AddPreviousState(poppedString);
+                solverController.AddPreviousState(poppedState[0]);
 
                 // Popping from unexplored list and setting result to new rack for testing
-                string unexploredStateCode = poppedString;
+                string unexploredStateCode = poppedState[0];
                 rack = new Rack(TUBE_SEGMENTS, unexploredStateCode);
 
+                // Adding state to sequence list as path for backtracking
+                solverController.PushToSequenceStack(poppedState);
+
+                // Deadend is true if path has no valid children sequences to follow
+                bool deadEnd = true;
 
                 // Generating all the valid next states from the initial state
                 for(int i = 0; i < TUBES_IN_RACK; i++)
@@ -82,6 +88,8 @@ namespace TubesSolver
                     {
                         if (i != j && rack.IsValidPour(i, j, ref outCode) && !solverController.IsAlreadySeenState(outCode))
                         {
+                            deadEnd = false;
+
                             outScore = rack.CalcScore();
 
                             solverController.PushUexploredState(outCode, i.ToString(), j.ToString());
@@ -103,6 +111,7 @@ namespace TubesSolver
                         iterTracking++;
                     }
                 }
+                if (deadEnd) solverController.PopFromSequenceStack();
             }
 
             Console.WriteLine();
@@ -111,7 +120,9 @@ namespace TubesSolver
             Console.WriteLine("Highest Score: " + highestScore);
             Console.WriteLine("Highest Code: " + highestCode);
 
-
+            Console.WriteLine("Steps for solution:");
+            Console.WriteLine("Initial State: " + initialState);
+            solverController.PrintPathSteps();
         }
     }
 }
