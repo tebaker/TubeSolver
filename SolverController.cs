@@ -27,5 +27,10 @@ namespace TubesSolver
             previousStates = new HashSet<string>(); // Set of states already explored
             sequenceStack = new Stack<List<string>>(); // Pair of moves required to get to current state, rack code
         }
+
+        public void AddPreviousState(string previousState)
+        {
+            previousStates.Add(previousState);
+        }
     }
 }

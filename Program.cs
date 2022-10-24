@@ -26,12 +26,14 @@ namespace TubesSolver
 
         static void Main(string[] args)
         {
-            // Example Rack Code: _0_B2R2_1_B1_2_B1G3_3__4_G1R2
-            Rack rack = new Rack(TUBE_SEGMENTS, "0B2R2_1B1_2B1G3_3_4G1R2");
+            // Example Rack Code: 0BBRR_1B_2BGGG_3_4GRR
+            Rack rack = new Rack(TUBE_SEGMENTS, "0BBRR_1B_2BGGG_3_4GRR");
+
+            SolverController solverController = new SolverController();
 
             Console.WriteLine(rack.Print());
 
-            Console.WriteLine(rack.CalcScore());
+            Console.WriteLine(rack.CalcScore()); // TODO need to check about this method. Not working as it should.
 
 
             // We're going to loop until rack score is 1; meaning we've solved the program.

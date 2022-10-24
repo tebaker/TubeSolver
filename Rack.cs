@@ -9,10 +9,11 @@ namespace TubesSolver
     {
         public int tubesInRack { get; private set; }
         private Dictionary<int, Tube> rack;
-        public 
+        public string rackCode;
 
         public Rack(int segments, string serializedRackCode)
         {
+            rackCode = serializedRackCode;
             List<Tube> listOfTubes = Deserialize(segments, serializedRackCode);
 
             tubesInRack = listOfTubes.Count;
@@ -24,6 +25,7 @@ namespace TubesSolver
             }
         }
 
+        // Calculates the store of the game state based on the score of each individual tube over the total number of tubes.
         public decimal CalcScore()
         {
             decimal returnScore = 0;
@@ -36,6 +38,7 @@ namespace TubesSolver
             return returnScore / tubesInRack;
         }
 
+        // 
         public string Serialize()
         {
             string returnCode = "";
@@ -43,7 +46,7 @@ namespace TubesSolver
             {
                 returnCode += tube.Value.Serialize();
             }
-            return returnCode;
+            return returnCode.Substring(1); // Returning substring from index 1 to end to eliminate leading "_";
         }
 
         // Will pour the top fluid contents from one tube into another
@@ -51,8 +54,7 @@ namespace TubesSolver
         {
             return true;
         }
-        // Example rack code: _0_B2R2_1_B1_2_B1G3_3__4_G1R2
-        //      After split: [[0], [B2R2], [1], [
+        // Example rack code: 0B2R2_1B1_2B1G3_3_4G1R2
         // Deserializing the rack code from string to Tube / Rack classes
         public List<Tube> Deserialize(int segments, string rackCode)
         {

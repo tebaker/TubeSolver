@@ -12,24 +12,20 @@ namespace TubesSolver
         public decimal freeSpace { get; private set; } // Available space not taken up by color liquid
         private decimal segments { get; set; } // Total number of segments in the tube
         private Stack<char> colorStack; // Stack holding order within the tube, FILO
-        private Dictionary<char, int> volumeByColor; // Holds the color and the volume of that color within the tube
 
         public Tube(int tubeId, int numOfSetments, string colorOrderOfTube)
         {
             tubeID = tubeId;
             segments = numOfSetments;
-            volumeByColor = new Dictionary<char, int> ();
             colorStack = new Stack<char>();
 
 
             // Calculating freeSpace, setting volumeByColor and tubeOrder at the same time
-            freeSpace = numOfSetments;
+            freeSpace = numOfSetments - colorOrderOfTube.Length;
 
             // Setting volume by color order based on tube stack
-            for(int i = 0; i < colorOrderOfTube.Length; i += 2)
+            for(int i = 0; i < colorOrderOfTube.Length; i++)
             {
-                freeSpace -= colorOrderOfTube[i+1] - '0';
-                volumeByColor.Add(colorOrderOfTube[i], colorOrderOfTube[i+1] - '0');
                 colorStack.Push(colorOrderOfTube[i]);
             }
         }
@@ -38,17 +34,7 @@ namespace TubesSolver
         //  - Tube heuristic: Greatest number of like colors over the total tube segments
         public decimal CalcScore()
         {
-            decimal greatestVolume = 0;
-
-            foreach (char colorVolume in colorStack)
-            {
-                greatestVolume = Math.Max(colorVolume - '0', greatestVolume); // - '0' to convert char to int
-            }
-
-            return greatestVolume / segments;
-
-            // Alternater overall heuristic idea:
-            // Count of "rack code" string
+            return -1;
         }
          // Returns a unique string of the tube colors with tube identifier
         public string Serialize()
@@ -84,12 +70,7 @@ namespace TubesSolver
 
             foreach (char color in colorStack)
             {
-                int loopAmount = volumeByColor[color];
-
-                for(int i = 0; i < loopAmount; i++)
-                {
-                    contentsOfTube += Char.ToString(color) + "|";
-                }
+                contentsOfTube += color + "|";
             }
             contentsOfTube += ">";
 
