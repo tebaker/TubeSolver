@@ -9,11 +9,11 @@ namespace TubesSolver
     {
         public int tubesInRack { get; private set; }
         private Dictionary<int, Tube> rack;
-        public string rackCode;
+        public string currentState;
 
         public Rack(int segments, string serializedRackCode)
         {
-            rackCode = serializedRackCode;
+            currentState = serializedRackCode;
             List<Tube> listOfTubes = Deserialize(segments, serializedRackCode);
 
             tubesInRack = listOfTubes.Count;
@@ -28,7 +28,7 @@ namespace TubesSolver
         // Calculates the store of the game state based on the score of each individual tube over the total number of tubes.
         public decimal CalcScore()
         {
-            decimal returnScore = 0;
+            decimal returnScore = 0.0M;
 
             foreach (KeyValuePair<int, Tube> tube in rack)
             {
@@ -50,10 +50,69 @@ namespace TubesSolver
         }
 
         // Will pour the top fluid contents from one tube into another
-        public bool Pour(Tube tube1, Tube tube2 )
+        public bool IsValidPour(int tubeId1, int tubeId2)
         {
-            return true;
+            bool valid = false;
+
+            string topOfTube1 = rack[tubeId1].PeekTop();
+
+            // Checking if the liquid from one tube could be contained by the other and vice versa
+            if(rack[tubeId2].CouldContain(topOfTube1))
+            {
+                string testSwapCode = GenerateTestSwapCode(tubeId1, tubeId2, topOfTube1);
+                Console.WriteLine("IN IsValidPour: " + testSwapCode);
+                valid = true;
+            }
+            // Checking if the swap would generate a serialized code state we have seen before
+            //string swapCode = 
+
+            return valid;
         }
+
+        // Generates new serialized swapCode for check
+        private string GenerateTestSwapCode(int tubeId1, int tubeId2, string topOfTube1)
+        {
+            // Pouring from tube 1 into tube 2
+            for (int i = 0; i < topOfTube1.Length; i++)
+            {
+                rack[tubeId2].Push(topOfTube1[i]); // Pop returns the popped character
+                rack[tubeId1].Pop(); // Popping from tube 1
+            }
+
+            // Grabbing serial from pour
+            string testSwapCode = Serialize();
+
+            // Pouring back from tube 2 to tube 1 to get things back to normal
+            for (int i = 0; i < topOfTube1.Length; i++)
+            {
+                rack[tubeId1].Push(topOfTube1[i]); // Pop returns the popped character
+                rack[tubeId2].Pop(); // Popping from tube 1
+            }
+
+
+            Console.WriteLine("IN GenerateTestSwapCode");
+            Console.WriteLine(testSwapCode);
+            Console.WriteLine(Serialize());
+
+            return testSwapCode;
+        }
+
+        // Pour will pour the top volume of liquid from one tube to another
+        public string Pour(int tubeId1, int tubeId2)
+        {
+            string tempCode = "";
+
+            string topOfTube1 = rack[tubeId1].PeekTop();
+
+            for(int i = 0; i < topOfTube1.Length; i++)
+            {
+                rack[tubeId2].Push(topOfTube1[i]); // Pop returns the popped character
+                rack[tubeId1].Pop(); // Popping from tube 1
+            }
+
+            return Serialize();
+        }
+
         // Example rack code: 0B2R2_1B1_2B1G3_3_4G1R2
         // Deserializing the rack code from string to Tube / Rack classes
         public List<Tube> Deserialize(int segments, string rackCode)

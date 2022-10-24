@@ -31,6 +31,20 @@ namespace TubesSolver
 
             SolverController solverController = new SolverController();
 
+            // Adding initial state as previous state to solver controller
+            // This will let us exclude the initial state from future calculations and stop looping
+            solverController.AddPreviousState(rack.currentState);
+
+            rack.IsValidPour(0, 1);
+
+
+
+
+
+
+
+
+
             Console.WriteLine(rack.Print());
 
             Console.WriteLine(rack.CalcScore()); // TODO need to check about this method. Not working as it should.

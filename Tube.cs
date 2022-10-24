@@ -10,15 +10,16 @@ namespace TubesSolver
         public int tubeID { get; private set; } // Unique tubeID for each tube
 
         public decimal freeSpace { get; private set; } // Available space not taken up by color liquid
-        private decimal segments { get; set; } // Total number of segments in the tube
+        public decimal segments { get; private set; } // Total number of segments in the tube
         private Stack<char> colorStack; // Stack holding order within the tube, FILO
+        public decimal score; // Holding the score of the tube based on the calc score function
 
         public Tube(int tubeId, int numOfSetments, string colorOrderOfTube)
         {
             tubeID = tubeId;
             segments = numOfSetments;
             colorStack = new Stack<char>();
-
+            score = -1.0M;
 
             // Calculating freeSpace, setting volumeByColor and tubeOrder at the same time
             freeSpace = numOfSetments - colorOrderOfTube.Length;
@@ -34,7 +35,23 @@ namespace TubesSolver
         //  - Tube heuristic: Greatest number of like colors over the total tube segments
         public decimal CalcScore()
         {
-            return -1;
+            Dictionary<char, int> volumeByColor = new Dictionary<char, int>();
+
+            decimal score = 0.0M;
+            foreach(char color in colorStack)
+            {
+                if(volumeByColor.ContainsKey(color) == true)
+                {
+                    volumeByColor[color]++;
+                    score = Math.Max(score, volumeByColor[color]);
+                }
+                else
+                {
+                    volumeByColor.Add(color, 1);
+                }
+            }
+
+            return score / segments;
         }
          // Returns a unique string of the tube colors with tube identifier
         public string Serialize()
@@ -49,10 +66,43 @@ namespace TubesSolver
             return returnStr;
         }
 
-        // Returns the color and volume of the next liquid on the tube stack
-        public char PeekColor()
+        // Returns the color on top of the tube stack
+        // If multiple colors are stacked on top of one another, returns all like colors
+        public string PeekTop()
         {
-            return colorStack.Peek();
+            string returnString = "";
+            char previous = colorStack.Peek();
+            foreach(char ch in colorStack)
+            {
+                if (previous == ch)
+                {
+                    returnString += ch;
+                }
+                else
+                {
+                    break;
+                }
+                previous = ch;
+            }
+            return returnString;
+        }
+
+        public void Push(char color)
+        {
+            colorStack.Push(color);
+        }
+
+        public char Pop()
+        {
+            char topOfColorStack = colorStack.Peek();
+            colorStack.Pop();
+            return topOfColorStack;
+        }
+
+        // Returns true if the stack has enough free space for the the passed in color
+        public bool CouldContain(string colorVolume)
+        {
+            return colorVolume.Length <= freeSpace;
         }
 
         // Returns a string of the current contents of the tube
