@@ -51,9 +51,9 @@ namespace TubesSolver
             // Count of "rack code" string
         }
          // Returns a unique string of the tube colors with tube identifier
-        public string GetTubeCode()
+        public string Serialize()
         {
-            string returnStr = "_" + tubeID + "_";
+            string returnStr = "_" + tubeID;
 
             foreach(char colorVolume in colorStack)
             {

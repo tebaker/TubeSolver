@@ -9,9 +9,12 @@ namespace TubesSolver
     {
         public int tubesInRack { get; private set; }
         private Dictionary<int, Tube> rack;
+        public 
 
-        public Rack(List<Tube> listOfTubes)
+        public Rack(int segments, string serializedRackCode)
         {
+            List<Tube> listOfTubes = Deserialize(segments, serializedRackCode);
+
             tubesInRack = listOfTubes.Count;
             rack = new Dictionary<int, Tube>();
 
@@ -33,12 +36,12 @@ namespace TubesSolver
             return returnScore / tubesInRack;
         }
 
-        public string GetRackCode()
+        public string Serialize()
         {
             string returnCode = "";
             foreach (KeyValuePair<int, Tube> tube in rack)
             {
-                returnCode += tube.Value.GetTubeCode();
+                returnCode += tube.Value.Serialize();
             }
             return returnCode;
         }
@@ -48,22 +51,29 @@ namespace TubesSolver
         {
             return true;
         }
-
+        // Example rack code: _0_B2R2_1_B1_2_B1G3_3__4_G1R2
+        //      After split: [[0], [B2R2], [1], [
         // Deserializing the rack code from string to Tube / Rack classes
-        public Rack DeserializeRackCode(int segments, string rackCode)
+        public List<Tube> Deserialize(int segments, string rackCode)
         {
-            int numOfTubes = 0;
-            string[] listStrElements = rackCode.Split('_');
+            string[] rackCodeSplit = rackCode.Split('_');
 
-            // Example Rack Code: _0_B2R2_1_B1_2_B1G3_3__4_G1R2
-            // * _{num}_ => tubeID
-            // * {CHAR VOLUME} => character of color, volume of 'water'
-            for (int i = 0; i < listStrElements.Length; i++)
+            //foreach (string str in rackCodeSplit) Console.WriteLine(str);
+
+            //Console.WriteLine(rackCode);
+
+            List<Tube> holdTubes = new List<Tube>();
+
+            foreach(string tubeCode in rackCodeSplit)
             {
-                Console.WriteLine(listStrElements[i]);
-            }
+                int tubeId = tubeCode[0] - '0';
+                string colorVolumes = tubeCode.Substring(1);
 
-            return new Rack(new List<Tube>());
+                Tube tube = new Tube(tubeId, segments, colorVolumes);
+                holdTubes.Add(tube);
+                //Console.WriteLine(listStrElements[i]);
+            }
+            return holdTubes;
         }
 
         // Returns string of contents of every tube

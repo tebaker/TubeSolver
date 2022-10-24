@@ -26,23 +26,13 @@ namespace TubesSolver
 
         static void Main(string[] args)
         {
-            // Setting list of tubes for rack
-            List<Tube> tubeList = new List<Tube>()
-            {
-                new Tube(0, TUBE_SEGMENTS, "R2B2"),
-                new Tube(1, TUBE_SEGMENTS, "B1"),
-                new Tube(2, TUBE_SEGMENTS, "G3B1"),
-                new Tube(3, TUBE_SEGMENTS, ""),
-                new Tube(4, TUBE_SEGMENTS, "R2G1")
-            };
-
-            Rack rack = new Rack(tubeList);
+            // Example Rack Code: _0_B2R2_1_B1_2_B1G3_3__4_G1R2
+            Rack rack = new Rack(TUBE_SEGMENTS, "0B2R2_1B1_2B1G3_3_4G1R2");
 
             Console.WriteLine(rack.Print());
 
             Console.WriteLine(rack.CalcScore());
 
-            rack.DeserializeRackCode(TUBE_SEGMENTS, rack.GetRackCode());
 
             // We're going to loop until rack score is 1; meaning we've solved the program.
         }
