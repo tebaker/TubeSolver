@@ -50,7 +50,7 @@ namespace TubesSolver
         }
 
         // Will pour the top fluid contents from one tube into another
-        public bool IsValidPour(int tubeId1, int tubeId2, ref string outSwapCode, ref decimal outScore)
+        public bool IsValidPour(int tubeId1, int tubeId2, ref string outSwapCode)
         {
             // Checking if tube1 is empty
             if (rack[tubeId1].IsEmpty()) return false;
@@ -62,17 +62,19 @@ namespace TubesSolver
             // Checking if the liquid from one tube could be contained by the other and vice versa
             if(rack[tubeId2].CouldContain(topOfTube1))
             {
-                outSwapCode = GenerateTestSwapCode(tubeId1, tubeId2, topOfTube1, ref outScore);
+                outSwapCode = GenerateTestSwapCode(tubeId1, tubeId2, topOfTube1);
                 valid = true;
             }
-            // Checking if the swap would generate a serialized code state we have seen before
-            //string swapCode = 
+            // Make sure we haven't seen the state previously (in main code, outside Rack)
+
+            // Making sure we aren't pouring a full bottle into an empty bottle
+            if (rack[tubeId1].isFullSameColor && rack[tubeId2].isEmpty) valid = false;
 
             return valid;
         }
 
         // Generates new serialized swapCode for check
-        private string GenerateTestSwapCode(int tubeId1, int tubeId2, string topOfTube1, ref decimal outScore)
+        private string GenerateTestSwapCode(int tubeId1, int tubeId2, string topOfTube1)
         {
             // Pouring from tube 1 into tube 2
             for (int i = 0; i < topOfTube1.Length; i++)
@@ -83,7 +85,6 @@ namespace TubesSolver
 
             // Grabbing serial from pour
             string testSwapCode = Serialize();
-            outScore = CalcScore();
 
             // Pouring back from tube 2 to tube 1 to get things back to normal
             for (int i = 0; i < topOfTube1.Length; i++)
@@ -143,16 +144,6 @@ namespace TubesSolver
             }
 
             return contentsOfRack;
-        }
-
-        public bool CheckWinState()
-        {
-            string[] checkFrom = Serialize().Split('_');
-
-            foreach(string str in checkFrom)
-            {
-
-            }
         }
     }
 }

@@ -22,12 +22,27 @@ namespace TubesSolver
 
 
         const int TUBE_SEGMENTS = 4;
-        const int TUBES_IN_RACK = 4;
+        const int TUBES_IN_RACK = 5;
 
         static void Main(string[] args)
         {
             // Example Rack Code: 0BBRR_1B_2BGGG_3_4GRR
             Rack rack = new Rack(TUBE_SEGMENTS, "0BBRR_1B_2BGGG_3_4GRR");
+
+            //Console.WriteLine(rack.CalcScore());
+
+            //rack = new Rack(TUBE_SEGMENTS, "0BBB_1_2RRR");
+
+            //Console.WriteLine(rack.CalcScore());
+
+            //rack = new Rack(TUBE_SEGMENTS, "0_1BBB_2RRR");
+
+            //Console.WriteLine(rack.CalcScore());
+
+            //rack = new Rack(TUBE_SEGMENTS, "0RRR_1BBB_2");
+
+            //Console.WriteLine(rack.CalcScore());
+
 
             SolverController solverController = new SolverController();
 
@@ -35,35 +50,66 @@ namespace TubesSolver
             // This will let us exclude the initial state from future calculations and stop looping
             solverController.AddPreviousState(rack.currentState);
 
-            // Holding results of score and serialized code
-            string outCode = "";
-            decimal outScore = 0.0M;
+            string highestCode = "";
+            decimal highestScore = 0.0M;
+            int solutionIter = 0;
+            int iterTracking = 1;
 
             solverController.PushUexploredState(rack.currentState, "NULL", "NULL"); // Initial state has no from or to pour
 
-            while(solverController.IsUnexploredEmpty() == false)
+            bool solutionFound = false;
+
+            while (solverController.IsUnexploredEmpty() == false && solutionFound == false)
             {
+                // Holding popped string for pushing into explored state
+                string poppedString = solverController.PopUnexploredState();
+
+                solverController.AddPreviousState(poppedString);
+
                 // Popping from unexplored list and setting result to new rack for testing
-                string unexploredStateCode = solverController.PopUnexploredState();
+                string unexploredStateCode = poppedString;
                 rack = new Rack(TUBE_SEGMENTS, unexploredStateCode);
+
 
                 // Generating all the valid next states from the initial state
                 for(int i = 0; i < TUBES_IN_RACK; i++)
                 {
-                    for(int j = 0; j < TUBES_IN_RACK; j++)
+                    // Holding results of score and serialized code
+                    string outCode = "";
+                    decimal outScore = 0.0M;
+
+                    for (int j = 0; j < TUBES_IN_RACK; j++)
                     {
-                        if (i != j && rack.IsValidPour(i, j, ref outCode, ref outScore) && !solverController.IsAlreadySeenState(outCode))
+                        if (i != j && rack.IsValidPour(i, j, ref outCode) && !solverController.IsAlreadySeenState(outCode))
                         {
+                            outScore = rack.CalcScore();
+
                             solverController.PushUexploredState(outCode, i.ToString(), j.ToString());
-                            Console.WriteLine(outCode + "\t->" + outScore);
-                            if (rack.IsWinState()) break;
+                            Console.WriteLine(iterTracking + ": " + outCode + "\t->" + outScore);
+
+                            // Setting highest score for viewing later
+                            if(outScore > highestScore)
+                            {
+                                highestScore = outScore;
+                                highestCode = outCode;
+                                solutionIter = iterTracking;
+                            }
+
+                            if (outScore == 1.0M) solutionFound = true; break;
                         }
+
+                        if (solutionFound) break;
+
+                        iterTracking++;
                     }
                 }
             }
 
-            Console.WriteLine("DIT ITTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
-            Console.WriteLine(outCode);
+            Console.WriteLine();
+            Console.WriteLine("Finished:");
+            Console.WriteLine("Iteration: " + solutionIter);
+            Console.WriteLine("Highest Score: " + highestScore);
+            Console.WriteLine("Highest Code: " + highestCode);
 
 
         }

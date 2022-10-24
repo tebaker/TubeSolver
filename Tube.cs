@@ -14,12 +14,17 @@ namespace TubesSolver
         private Stack<char> colorStack; // Stack holding order within the tube, FILO
         public decimal score; // Holding the score of the tube based on the calc score function
 
+        public bool isFullSameColor;
+        public bool isEmpty;
+
         public Tube(int tubeId, int numOfSetments, string colorOrderOfTube)
         {
             tubeID = tubeId;
             segments = numOfSetments;
             colorStack = new Stack<char>();
             score = -1.0M;
+            isFullSameColor = false;
+            isEmpty = false;
 
             // Calculating freeSpace, setting volumeByColor and tubeOrder at the same time
             freeSpace = numOfSetments - colorOrderOfTube.Length;
@@ -35,9 +40,15 @@ namespace TubesSolver
         //  - Tube heuristic: Greatest number of like colors over the total tube segments
         public decimal CalcScore()
         {
+            // Returning score of 1 for completely empty tube. This will help with checking win state
+            if (freeSpace == segments)
+            {
+                isEmpty = true;
+                return 1.0M;
+            }
             Dictionary<char, int> volumeByColor = new Dictionary<char, int>();
-
             decimal score = 0.0M;
+
             foreach(char color in colorStack)
             {
                 if(volumeByColor.ContainsKey(color) == true)
@@ -50,6 +61,8 @@ namespace TubesSolver
                     volumeByColor.Add(color, 1);
                 }
             }
+
+            if (score / segments == 1.0M) isFullSameColor = true;
 
             return score / segments;
         }

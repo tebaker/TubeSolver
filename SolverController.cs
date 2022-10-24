@@ -34,6 +34,7 @@ namespace TubesSolver
             unexploredStates = new Stack<List<string>>();
         }
 
+        // Adding previous state to already explored hash set
         public void AddPreviousState(string previousState)
         {
             previousStates.Add(previousState);
